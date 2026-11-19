@@ -408,9 +408,13 @@ class UiStore {
   ): void => {
     if (pane === "secondary") {
       this.secondaryRightSidebar = panel;
-    } else {
-      this.rightSidebar = panel;
+      return;
     }
+
+    this.rightSidebar = panel;
+    // The primary panel is persisted, so it must be written on every change or
+    // a reload restores whichever panel was open at the last unrelated save.
+    this.persist();
   };
 
   @action
